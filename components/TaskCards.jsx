@@ -5,7 +5,7 @@ import { BsArrowUpRight, BsCoin } from "react-icons/bs";
 
 export default function TaskCard() {
   const { task, user } = useUserContext();
-
+  const boxShadowColorMode = useColorModeValue("6px 6px 0 black", "6px 6px 0 cyan");
   return (
     <Box>
       <Center m={2}>
@@ -27,7 +27,7 @@ export default function TaskCard() {
                 bg='white'
                 border={"1px"}
                 borderColor='black'
-                boxShadow={useColorModeValue("6px 6px 0 black", "6px 6px 0 cyan")}>
+                boxShadow={boxShadowColorMode}>
                 <Box p={4}>
                   <Box bg='black' display={"inline-block"} px={2} py={1} color='white' mb={2}>
                     <Text fontSize={"xs"} fontWeight='medium'>

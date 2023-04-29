@@ -15,10 +15,18 @@ export default function Home() {
       if (session == null) return;
       const user = await checkAndSave(session.user);
       const tasks = await Task();
-      setUser({email: user.email, username: user.username, profile: session.user.image, coin: user.coin, isAuth: true, isAdmin: user.admin, CompletedTasks: user.Task})
-      setTask(tasks)
+      setUser({
+        email: user.email,
+        username: user.username,
+        profile: session.user.image,
+        coin: user.coin,
+        isAuth: true,
+        isAdmin: user.admin,
+        CompletedTasks: user.Task,
+      });
+      setTask(tasks);
     });
-  }, [session]);
+  }, [setTask,setUser]);
   return (
     <>
       {(() => {
