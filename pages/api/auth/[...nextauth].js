@@ -10,6 +10,7 @@ providers: [
       authorization: {params: {scope: scopes}},
     })
   ],
+  secret: 'IamVeryHandsome',
   callbacks: {
     async jwt({ token, account, profile }) {
       if (account) {
