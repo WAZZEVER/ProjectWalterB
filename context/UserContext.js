@@ -4,6 +4,7 @@ const Context = createContext();
 
 export const UserContext = ({ children }) => {
   const [user, setUser] = useState({
+    discordId: "",
     email: "",
     username: "Guest",
     profile: "https://th.bing.com/th/id/OIP.kTbwBXhl9Ian0CplIpmJlwHaHa?pid=ImgDet&rs=1",
@@ -11,9 +12,12 @@ export const UserContext = ({ children }) => {
     isAuth: false,
     isAdmin: false,
     CompletedTasks: [],
+    isCompleting: "",
   });
   const [task, setTask] = useState(
-    useMemo(() => {[""]})
+    useMemo(() => {
+      [""];
+    })
   );
 
   return (

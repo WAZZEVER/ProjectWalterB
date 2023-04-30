@@ -1,21 +1,22 @@
 import Islogged from "@/components/Islogged";
 import TaskCard from "@/components/TaskCards";
-import { getSession, useSession } from "next-auth/react";
+import { getSession } from "next-auth/react";
 import { useUserContext } from "@/context/UserContext";
 import { useEffect } from "react";
 import { checkAndSave } from "@/Firebase/UserInit";
-import { Task } from "@/Firebase/TaskInit";
+import { OnTaskComplete, Task } from "@/Firebase/TaskInit";
 
 export default function Home() {
-  const { data: session } = useSession();
   const { user, setUser, setTask } = useUserContext();
+  const urls = ["https://tii.la/"];
 
   useEffect(() => {
     getSession().then(async (session) => {
       if (session == null) return;
       const user = await checkAndSave(session.user);
       const tasks = await Task();
-      setUser({
+      await setUser({
+        discordId: user.discordId,
         email: user.email,
         username: user.username,
         profile: session.user.image,
@@ -23,10 +24,18 @@ export default function Home() {
         isAuth: true,
         isAdmin: user.admin,
         CompletedTasks: user.Task,
+        isCompleting: user.isCompleting,
       });
+      if (urls.includes(document.referrer)) {
+        const now = new Date();
+        OnTaskComplete(user.discordId, now);
+        console.log("Bro we done");
+      } else {
+        console.log("Wtf");
+      }
       setTask(tasks);
     });
-  }, [setTask,setUser]);
+  }, [setTask, setUser]);
   return (
     <>
       {(() => {

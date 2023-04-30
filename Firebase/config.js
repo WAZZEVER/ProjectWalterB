@@ -7,11 +7,11 @@ const firebaseConfig = {
   storageBucket: "mallory-2981a.appspot.com",
   messagingSenderId: "375464208367",
   appId: "1:375464208367:web:af289418749b9071ab781a",
-  measurementId: "G-ZQVGY9NXP9"
+  measurementId: "G-ZQVGY9NXP9",
 };
 const Gapp = initializeApp(firebaseConfig);
 const db = getFirestore(Gapp);
 const discordAuthCol = collection(db, "walterB");
-const offerCol = collection(db, "Task")
+const offerCol = collection(db, "Task");
 
-module.exports = { discordAuthCol, offerCol };
+module.exports = { discordAuthCol, offerCol, db };
