@@ -21,7 +21,17 @@ export default function TaskCard() {
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", xl: "repeat(4,1fr)" }} minH={"30vh"}>
         {task ? (
           task.map((eTask) => {
-            let isCompleted = user.CompletedTasks.find((task) => task.Name === eTask.Name) != undefined; // True when found
+            console.log(user.CompletedTasks)
+            const isCompletedTask = (completedTasks, taskName) => {
+              for (const key in completedTasks) {
+                const task = completedTasks[key];
+                if (task.Name === taskName) {
+                  return true;
+                }
+              }
+              return false;
+            }; // True when found
+            let isCompleted = isCompletedTask(user.CompletedTasks, eTask.Name)
             let isCompleting = user.isCompleting === eTask.Name; // True when found
             const log = isCompleted ? "Completed" : isCompleting ? "On Progress" : "Open";
             const pointerEventsStyle = isCompleted
