@@ -15,7 +15,6 @@ export default function Home() {
   useEffect(() => {
     
     getSession().then(async (session) => {
-      console.log(session.user)
       if (session == null) return;
       const user = await checkAndSave(session.user);
       const tasks = await Task();
