@@ -1,7 +1,6 @@
 import { OnProgressTask } from "@/Firebase/TaskInit";
 import { useUserContext } from "@/context/UserContext";
 import { Box, Heading, Text, Flex, useColorModeValue, HStack, Grid, Center, Divider } from "@chakra-ui/react";
-import Link from "next/link";
 import { BsArrowUpRight, BsCoin } from "react-icons/bs";
 
 export default function TaskCard() {
@@ -9,7 +8,6 @@ export default function TaskCard() {
   const boxShadowColorMode = useColorModeValue("6px 6px 0 black", "6px 6px 0 cyan");
   const handleProgress = async (user, tName, link) => {
     await OnProgressTask(user, tName);
-    console.log("Done");
     window.location.href = link;
   };
   return (
@@ -21,7 +19,6 @@ export default function TaskCard() {
       <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", xl: "repeat(4,1fr)" }} minH={"30vh"}>
         {task ? (
           task.map((eTask) => {
-            console.log(user.CompletedTasks)
             const isCompletedTask = (completedTasks, taskName) => {
               for (const key in completedTasks) {
                 const task = completedTasks[key];

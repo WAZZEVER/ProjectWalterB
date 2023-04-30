@@ -30,14 +30,12 @@ export default function Home() {
         CompletedTasks: user.Task,
         isCompleting: user.isCompleting,
       });
-      console.log(user)
 
       if (urls.includes(document.referrer)) {
         const now = new Date();
         OnTaskComplete(user.discordId, now);
-        console.log("Bro we done");
       } else {
-        console.log("Wtf");
+        return;
       }
       setTask(tasks);
     });
