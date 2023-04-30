@@ -5,9 +5,8 @@ import { useUserContext } from "@/context/UserContext";
 import { useEffect } from "react";
 import { checkAndSave } from "@/Firebase/UserInit";
 import { OnTaskComplete, Task } from "@/Firebase/TaskInit";
-import { discordAuthCol } from "@/Firebase/config";
-// const { offerCol, discordAuthCol } = require("./config");
-const { getCountFromServer, getDocs, query, where, limit, updateDoc, arrayUnion } = require("firebase/firestore");
+// import { discordAuthCol } from "@/Firebase/config";
+// const {  discordAuthCol } = require("./config");
 
 export default function Home() {
   const { user, setUser, setTask } = useUserContext();
@@ -16,9 +15,12 @@ export default function Home() {
   useEffect(() => {
     
     getSession().then(async (session) => {
+      console.log(session.user)
       if (session == null) return;
       const user = await checkAndSave(session.user);
       const tasks = await Task();
+      setTask(tasks);
+
       await setUser({
         discordId: user.discordId,
         email: user.email,
@@ -37,7 +39,6 @@ export default function Home() {
       } else {
         return;
       }
-      setTask(tasks);
     });
   }, [setTask, setUser]);
   return (
