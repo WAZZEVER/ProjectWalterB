@@ -11,32 +11,32 @@ export default function Home() {
   const urls = ["https://tii.la/"];
 
   useEffect(() => {
-    
-    getSession().then(async (session) => {
-      if (session == null) return;
-      const user = await checkAndSave(session.user);
-      const tasks = await Task();
-      setTask(tasks);
+    return () => {
+      getSession().then(async (session) => {
+        if (urls.includes(document.referrer)) {
+          const now = new Date();
+          const x = await OnTaskComplete(session.user.id, now);
+        } else {
+          // Do nothing like me
+        }
+        if (session == null) return;
+        const user = await checkAndSave(session.user);
+        const tasks = await Task();
+        setTask(tasks);
+        await setUser({
+          discordId: user.discordId,
+          email: user.email,
+          username: user.username,
+          profile: session.user.image,
+          coin: user.coin,
+          isAuth: true,
+          isAdmin: user.admin,
+          CompletedTasks: user.Task,
+          isCompleting: user.isCompleting,
+        });
 
-      await setUser({
-        discordId: user.discordId,
-        email: user.email,
-        username: user.username,
-        profile: session.user.image,
-        coin: user.coin,
-        isAuth: true,
-        isAdmin: user.admin,
-        CompletedTasks: user.Task,
-        isCompleting: user.isCompleting,
       });
-
-      if (urls.includes(document.referrer)) {
-        const now = new Date();
-        OnTaskComplete(user.discordId, now);
-      } else {
-        return;
-      }
-    });
+    };
   }, [setTask, setUser]);
   return (
     <>

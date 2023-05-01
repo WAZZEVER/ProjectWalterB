@@ -57,7 +57,6 @@ export default function Nav() {
 
                   {user.isAuth ? (
                     <>
-                      <MenuItem>Your Profile</MenuItem>
                       <MenuItem onClick={signOut}>Logout</MenuItem>
                     </>
                   ) : (
