@@ -28,7 +28,25 @@ export default function TaskCard() {
               }
               return false;
             }; // True when found
-            let isCompleted = isCompletedTask(user.CompletedTasks, eTask.Name)
+              const RemainingTime = (completedTasks, taskname, remaining) => {
+                for (const key in completedTasks) {
+                  const task = completedTasks[key];
+                  if (task.Name === taskname) {
+                    const timestampInSeconds = task.CoolDown.seconds;
+                    const RT = remaining * 60 * 60 * 1000;
+                    const currentTime = new Date().getTime();
+                    const elapsedMilliseconds = currentTime - timestampInSeconds * 1000;
+                    const elapsedHours = elapsedMilliseconds / (1000 * 60 * 60);
+                    const remainingHours = (RT - elapsedMilliseconds) / (1000 * 60 * 60);
+                    return { isCompleted: elapsedMilliseconds >= RT, remainingHours };
+                  }
+                }
+                return false;
+              };
+            let isCompleted = isCompletedTask(user.CompletedTasks, eTask.Name);
+            const TimeR = (RemainingTime(user.CompletedTasks, eTask.Name, eTask.CoolDownLimit))
+
+            console.log(eTask)
             let isCompleting = user.isCompleting === eTask.Name; // True when found
             const log = isCompleted ? "Completed" : isCompleting ? "On Progress" : "Open";
             const pointerEventsStyle = isCompleted
@@ -61,7 +79,7 @@ export default function TaskCard() {
                     {eTask.Name}
                   </Heading>
                   <Text color={"gray.500"} noOfLines={2}>
-                    Cooldown and will be available in next 2 hour
+                    {isCompleted ? ( TimeR.isCompleted ? '': `Cooldown will end in ${(TimeR.remainingHours).toFixed(2)} hours.`): "Ready to complete"}
                   </Text>
                 </Box>
                 <HStack borderTop={"1px"} color='black'>

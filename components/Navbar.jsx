@@ -54,7 +54,6 @@ export default function Nav() {
                     <p>Total Balance : {user.coin} (WC)</p>
                   </Center>
                   <MenuDivider />
-
                   {user.isAuth ? (
                     <>
                       <MenuItem onClick={signOut}>Logout</MenuItem>
