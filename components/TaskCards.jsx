@@ -45,8 +45,6 @@ export default function TaskCard() {
               };
             let isCompleted = isCompletedTask(user.CompletedTasks, eTask.Name);
             const TimeR = (RemainingTime(user.CompletedTasks, eTask.Name, eTask.CoolDownLimit))
-
-            console.log(eTask)
             let isCompleting = user.isCompleting === eTask.Name; // True when found
             const log = isCompleted ? "Completed" : isCompleting ? "On Progress" : "Open";
             const pointerEventsStyle = isCompleted
