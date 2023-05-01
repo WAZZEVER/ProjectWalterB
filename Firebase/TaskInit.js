@@ -1,5 +1,5 @@
 const { offerCol, discordAuthCol } = require("./config");
-const { getCountFromServer, getDocs, query, where, limit, updateDoc, arrayUnion } = require("firebase/firestore");
+const { getCountFromServer, getDocs, query, where, limit, updateDoc, arrayUnion, FieldValue } = require("firebase/firestore");
 
 const Task = async () => {
   try {
@@ -27,12 +27,17 @@ const OnProgressTask = async (profileId, taskName) => {
 
 const OnTaskComplete = async (profileId, Time) => {
   const q = query(discordAuthCol, where("discordId", "==", profileId), limit(1));
+
   const querySnapshot = await getDocs(q);
   const data = querySnapshot.docs[0].data()
+  const s = query(discordAuthCol, where("Name", "==", data.isCompleting), limit(1));
+  const SquerySnapshot = await getDocs(s);
+  const sdata = SquerySnapshot[0].data();
   const docRef = querySnapshot.docs[0].ref;
   await updateDoc(docRef, {
     Task: arrayUnion([{ Name: data.isCompleting , CoolDown: Time }]),
     isCompleting: "",
+    coin: FieldValue.increment(sdata.coin)
   });
 };
 

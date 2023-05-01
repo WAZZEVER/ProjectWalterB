@@ -2,18 +2,17 @@ import {
   Box,
   Flex,
   Avatar,
-  Link,
   Button,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
-  useDisclosure,
   useColorModeValue,
   Stack,
   useColorMode,
   Center,
+  Divider,
 } from "@chakra-ui/react";
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { useUserContext } from "@/context/UserContext";
@@ -26,7 +25,6 @@ export default function Nav() {
   function handleAuth() {
     signIn("discord");
   }
-  
 
   return (
     <>
@@ -51,7 +49,10 @@ export default function Nav() {
                   <Center>
                     <p>{user.username}</p>
                   </Center>
-                  <br />
+                  < Divider my={2}/>
+                  <Center>
+                    <p>Total Balance : {user.coin} (WC)</p>
+                  </Center>
                   <MenuDivider />
 
                   {user.isAuth ? (

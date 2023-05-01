@@ -5,8 +5,6 @@ import { useUserContext } from "@/context/UserContext";
 import { useEffect } from "react";
 import { checkAndSave } from "@/Firebase/UserInit";
 import { OnTaskComplete, Task } from "@/Firebase/TaskInit";
-// import { discordAuthCol } from "@/Firebase/config";
-// const {  discordAuthCol } = require("./config");
 
 export default function Home() {
   const { user, setUser, setTask } = useUserContext();
