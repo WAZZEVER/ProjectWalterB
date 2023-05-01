@@ -15,7 +15,7 @@ export default function Home() {
       getSession().then(async (session) => {
         if (urls.includes(document.referrer)) {
           const now = new Date();
-          const x = await OnTaskComplete(session.user.id, now);
+          await OnTaskComplete(session.user.id, now);
         } else {
           // Do nothing like me
         }
