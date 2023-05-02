@@ -1,5 +1,5 @@
 const { offerCol, discordAuthCol } = require("./config");
-const { getCountFromServer, getDocs, query, where, limit, updateDoc, arrayUnion, increment  } = require("firebase/firestore");
+const { getCountFromServer, getDocs, doc, query, where, limit, updateDoc, arrayUnion, increment, setDoc } = require("firebase/firestore");
 
 const Task = async () => {
   try {
@@ -41,11 +41,29 @@ const OnTaskComplete = async (profileId, Time) => {
       coin: increment(sdata.price),
     });
     return;
-  } catch (err)
-  {
+  } catch (err) {
     return;
     // return err; Can be used to display error in console.log()
   }
 };
 
-module.exports = { Task, OnProgressTask, OnTaskComplete };
+const CreateTask = async (cooldown, name, price, url) => {
+  try {
+    const q = query(offerCol, where("url", "==", url), limit(1));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      await setDoc(doc(offerCol), {
+        CoolDownLimit: cooldown,
+        Name: name,
+        price: price,
+        url: url,
+      });
+      return "Done";
+    }
+    return "Already Exsist"
+  } catch (err) {
+    return err;
+  }
+};
+
+module.exports = { Task, OnProgressTask, OnTaskComplete, CreateTask };
