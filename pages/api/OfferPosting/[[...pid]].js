@@ -9,7 +9,6 @@ export default function Page(req, res) {
   const url = `https://shrinkearn.com/api?api=${process.env.SHRINKEARN}&url=${req.query.pid[0]}`;
   fetch(url).then(resp => resp.json())
   .then( async (data) => {
-    console.log(data)
     const x = await CreateTask(cooldown, name, price, data.shortenedUrl)
     console.log(x)
     res.send(200)
