@@ -7,8 +7,7 @@ import { checkAndSave } from "@/Firebase/UserInit";
 import { OnTaskComplete, Task,CoolDownEnded } from "@/Firebase/TaskInit";
 
 const checkCooldown = async (user, eTask) => {
-  const completedTask = user.CompletedTasks.find((task) => task.Name === eTask.Name);
-
+  const completedTask = user.Task.find((task) => task.Name === eTask.Name);
   if (!completedTask) {
     return;
   }
@@ -18,14 +17,14 @@ const checkCooldown = async (user, eTask) => {
 
 
   if (elapsedHours >= eTask.CoolDownLimit) {
-    const x = await CoolDownEnded(user.discordId, eTask.Name);
+    await CoolDownEnded(user.discordId, eTask.Name);
   }
 
   return;
 };
 
 export default function Home() {
-  const { user, task, setUser, setTask } = useUserContext();
+  const { user, setUser, setTask } = useUserContext();
   const urls = ["https://tii.la/"];
 
   useEffect(() => {
@@ -51,9 +50,14 @@ export default function Home() {
         CompletedTasks: userDet.Task,
         isCompleting: userDet.isCompleting,
       });
-      tasks?.map(async (eTask) => {
-        await checkCooldown(user, eTask);
-      });
+      
+      if (tasks) {
+        tasks.map(async (eTask) => {
+          await checkCooldown(userDet, eTask);
+        });
+      } else {
+        //Do nothing
+      }
     });
     
   }, [setTask, setUser]); 
