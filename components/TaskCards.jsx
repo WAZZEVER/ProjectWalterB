@@ -1,4 +1,4 @@
-import { OnProgressTask, CoolDownEnded } from "@/Firebase/TaskInit";
+import { OnProgressTask } from "@/Firebase/TaskInit";
 import { useUserContext } from "@/context/UserContext";
 import { Box, Heading, Text, Flex, useColorModeValue, HStack, Grid, Center, Divider } from "@chakra-ui/react";
 import { BsArrowUpRight, BsCoin } from "react-icons/bs";

@@ -6,26 +6,28 @@ import { useEffect } from "react";
 import { checkAndSave } from "@/Firebase/UserInit";
 import { OnTaskComplete, Task,CoolDownEnded } from "@/Firebase/TaskInit";
 
-const checkCooldown = async (user, eTask) => {
-  const completedTask = user.Task.find((task) => task.Name === eTask.Name);
-  if (!completedTask) {
-    return;
-  }
-  const completedTime = new Date(completedTask.CoolDown.seconds * 1000);
-  const now = new Date();
-  const elapsedHours = (now - completedTime) / 1000 / 60 / 60;
-
-
-  if (elapsedHours >= eTask.CoolDownLimit) {
-    await CoolDownEnded(user.discordId, eTask.Name);
-  }
-
-  return;
-};
-
 export default function Home() {
-  const { user, setUser, setTask } = useUserContext();
+  const { user,task, setUser, setTask } = useUserContext();
   const urls = ["https://tii.la/"];
+
+  const checkCooldown = async (user, eTask) => {
+    const completedTask = user.Task?.find((task) => task.Name === eTask.Name);
+    if (!completedTask) {
+      return;
+    }
+    const completedTime = new Date(completedTask.CoolDown.seconds * 1000);
+    const now = new Date();
+    const elapsedHours = (now - completedTime) / 1000 / 60 / 60;
+  
+  
+    if (elapsedHours >= eTask.CoolDownLimit) {
+      // const UpdatedTask = user.Task.filter((Task) => Task.Name !== eTask.Name)
+      await setUser(prevState => ({...prevState, CompletedTasks: completedTask}))
+      await CoolDownEnded(user.discordId, eTask.Name);
+    }
+  
+    return;
+  };
 
   useEffect(() => {
     getSession().then(async (session) => {
