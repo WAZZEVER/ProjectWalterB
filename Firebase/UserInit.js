@@ -1,4 +1,4 @@
-const { discordAuthCol, db } = require("./config");
+const { discordAuthCol } = require("./config");
 const { getDocs, setDoc, doc, query, where, limit, getCountFromServer } = require("firebase/firestore");
 
 const checkAndSave = async (profile) => {

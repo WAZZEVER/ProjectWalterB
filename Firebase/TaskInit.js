@@ -47,6 +47,22 @@ const OnTaskComplete = async (profileId, Time) => {
   }
 };
 
+const CoolDownEnded = async (profileId, taskName) => {
+  try{
+  const q = query(discordAuthCol, where("discordId", "==", profileId), limit(1))
+  const querySnapshot = await getDocs(q);
+  const docRef = querySnapshot.docs[0]
+  const updatedTask = docRef.data().Task.filter((Task) => Task.Name !== taskName);
+  // return updatedTask
+  await updateDoc(docRef.ref, {
+     Task: updatedTask
+    })
+  return "Done";
+  } catch (err) {
+    return err;
+  }
+}
+
 const CreateTask = async (cooldown, name, price, url) => {
   try {
     const q = query(offerCol, where("url", "==", url), limit(1));
@@ -66,4 +82,4 @@ const CreateTask = async (cooldown, name, price, url) => {
   }
 };
 
-module.exports = { Task, OnProgressTask, OnTaskComplete, CreateTask };
+module.exports = { Task, OnProgressTask, OnTaskComplete, CreateTask, CoolDownEnded };

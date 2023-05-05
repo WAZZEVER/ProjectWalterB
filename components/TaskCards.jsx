@@ -1,15 +1,42 @@
-import { OnProgressTask } from "@/Firebase/TaskInit";
+import { OnProgressTask, CoolDownEnded } from "@/Firebase/TaskInit";
 import { useUserContext } from "@/context/UserContext";
 import { Box, Heading, Text, Flex, useColorModeValue, HStack, Grid, Center, Divider } from "@chakra-ui/react";
 import { BsArrowUpRight, BsCoin } from "react-icons/bs";
 
-export default function TaskCard() {
+const TaskCard = () => {
   const { task, user } = useUserContext();
   const boxShadowColorMode = useColorModeValue("6px 6px 0 black", "6px 6px 0 cyan");
   const handleProgress = async (user, tName, link) => {
     await OnProgressTask(user, tName);
     window.location.href = link;
   };
+  const checkCooldown = (user, eTask) => {
+    const completedTask = user.CompletedTasks.find((task) => task.Name === eTask.Name);
+
+    if (!completedTask) {
+      return {
+        isCooldownExpired: false,
+        remainingHours: 0,
+      };
+    }
+    const completedTime = new Date(completedTask.CoolDown.seconds * 1000);
+    const now = new Date();
+    const elapsedHours = (now - completedTime) / 1000 / 60 / 60;
+    const remainingHours = eTask.CoolDownLimit - elapsedHours;
+
+    if (elapsedHours >= eTask.CoolDownLimit) {
+      return {
+        isCooldownExpired: true,
+        remainingHours: 0,
+      };
+    }
+
+    return {
+      isCooldownExpired: false,
+      remainingHours: remainingHours.toFixed(1),
+    };
+  };
+
   return (
     <Box>
       <Center m={2}>
@@ -28,23 +55,8 @@ export default function TaskCard() {
               }
               return false;
             }; // True when found
-              const RemainingTime = (completedTasks, taskname, remaining) => {
-                for (const key in completedTasks) {
-                  const task = completedTasks[key];
-                  if (task.Name === taskname) {
-                    const timestampInSeconds = task.CoolDown.seconds;
-                    const RT = remaining * 60 * 60 * 1000;
-                    const currentTime = new Date().getTime();
-                    const elapsedMilliseconds = currentTime - timestampInSeconds * 1000;
-                    const elapsedHours = elapsedMilliseconds / (1000 * 60 * 60);
-                    const remainingHours = (RT - elapsedMilliseconds) / (1000 * 60 * 60);
-                    return { isCompleted: elapsedMilliseconds >= RT, remainingHours };
-                  }
-                }
-                return false;
-              };
+            const { isCooldownExpired, remainingHours } = checkCooldown(user, eTask);
             let isCompleted = isCompletedTask(user.CompletedTasks, eTask.Name);
-            const TimeR = (RemainingTime(user.CompletedTasks, eTask.Name, eTask.CoolDownLimit))
             let isCompleting = user.isCompleting === eTask.Name; // True when found
             const log = isCompleted ? "Completed" : isCompleting ? "On Progress" : "Open";
             const pointerEventsStyle = isCompleted
@@ -58,7 +70,6 @@ export default function TaskCard() {
               <Box
                 key={eTask.Name}
                 w='xs'
-                h={"12.5em"}
                 rounded={"sm"}
                 my={5}
                 mx={"auto"}
@@ -77,7 +88,7 @@ export default function TaskCard() {
                     {eTask.Name}
                   </Heading>
                   <Text color={"gray.500"} noOfLines={2}>
-                    {isCompleted ? ( TimeR.isCompleted ? '': `Cooldown will end in ${(TimeR.remainingHours).toFixed(2)} hours.`): "Ready to complete"}
+                    {isCompleted ? (isCooldownExpired ? "" : `Cooldown will end in ${remainingHours} hours.`) : ""}
                   </Text>
                 </Box>
                 <HStack borderTop={"1px"} color='black'>
@@ -117,4 +128,6 @@ export default function TaskCard() {
       </Grid>
     </Box>
   );
-}
+};
+
+export default TaskCard;

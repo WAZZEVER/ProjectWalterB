@@ -2,12 +2,30 @@ import Islogged from "@/components/Islogged";
 import TaskCard from "@/components/TaskCards";
 import { getSession } from "next-auth/react";
 import { useUserContext } from "@/context/UserContext";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { checkAndSave } from "@/Firebase/UserInit";
-import { OnTaskComplete, Task } from "@/Firebase/TaskInit";
+import { OnTaskComplete, Task,CoolDownEnded } from "@/Firebase/TaskInit";
+
+const checkCooldown = async (user, eTask) => {
+  const completedTask = user.CompletedTasks.find((task) => task.Name === eTask.Name);
+
+  if (!completedTask) {
+    return;
+  }
+  const completedTime = new Date(completedTask.CoolDown.seconds * 1000);
+  const now = new Date();
+  const elapsedHours = (now - completedTime) / 1000 / 60 / 60;
+
+
+  if (elapsedHours >= eTask.CoolDownLimit) {
+    const x = await CoolDownEnded(user.discordId, eTask.Name);
+  }
+
+  return;
+};
 
 export default function Home() {
-  const { user, setUser, setTask } = useUserContext();
+  const { user, task, setUser, setTask } = useUserContext();
   const urls = ["https://tii.la/"];
 
   useEffect(() => {
@@ -19,22 +37,26 @@ export default function Home() {
         // Do nothing
       }
       if (session == null) return;
-      const user = await checkAndSave(session.user);
+      const userDet = await checkAndSave(session.user);
       const tasks = await Task();
-      setTask(tasks);
-      setUser({
-        discordId: user.discordId,
-        email: user.email,
-        username: user.username,
+      await setTask(tasks);
+      await setUser({
+        discordId: userDet.discordId,
+        email: userDet.email,
+        username: userDet.username,
         profile: session.user.image,
-        coin: user.coin,
+        coin: userDet.coin,
         isAuth: true,
-        isAdmin: user.admin,
-        CompletedTasks: user.Task,
-        isCompleting: user.isCompleting,
+        isAdmin: userDet.admin,
+        CompletedTasks: userDet.Task,
+        isCompleting: userDet.isCompleting,
+      });
+      tasks?.map(async (eTask) => {
+        await checkCooldown(user, eTask);
       });
     });
-  }, [setTask, setUser]);
+    
+  }, [setTask, setUser]); 
   return (
     <>
       {(() => {
