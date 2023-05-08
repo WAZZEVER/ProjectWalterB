@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
     <div className='main-layout'>
       <Head>
         <title>WAZZEVER</title>
-<link rel="icon" href="https://cdn.discordapp.com/attachments/875195544010633306/1027553675100569600/WAZZ_3.png">
+        <link rel="icon" href="https://cdn.discordapp.com/attachments/875195544010633306/1027553675100569600/WAZZ_3.png" />
       </Head>
       <header>
         <Navbar />
