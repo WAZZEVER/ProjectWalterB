@@ -43,7 +43,7 @@ const TaskCard = () => {
         <Heading>Tasks</Heading>
       </Center>
       <Divider />
-      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", xl: "repeat(4,1fr)" }} maxH={"30vh"}>
+      <Grid templateColumns={{ base: "1fr", md: "repeat(2, 1fr)", xl: "repeat(4,1fr)" }}>
         {task ? (
           task.map((eTask) => {
             const isCompletedTask = (completedTasks, taskName) => {
