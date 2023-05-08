@@ -17,3 +17,5 @@ export const Page = async(req, res) => {
     const x = await CreateTask(cooldown, name, price, dest+ "/"+dest2)
     res.send(200)
 }
+
+export default Page;
