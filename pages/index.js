@@ -35,7 +35,7 @@ export default function Home() {
         const now = new Date();
         await OnTaskComplete(session.user.id, now);
       } else {
-        if (work.includes("davisonbarker.pro")){
+        if (document.referrer.includes("davisonbarker.pro")){
           const now = new Date();
           await OnTaskComplete(session.user.id, now);
         }
