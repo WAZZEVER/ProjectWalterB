@@ -10,6 +10,6 @@ export default function Page(req, res) {
   fetch(url).then(resp => resp.json())
   .then( async (data) => {
     const x = await CreateTask(cooldown, name, price, data.shortenedUrl)
-    res.send(200)
+res.status(200).send()
   })
 }
