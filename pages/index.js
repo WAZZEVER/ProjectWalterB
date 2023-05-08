@@ -7,8 +7,8 @@ import { checkAndSave } from "@/Firebase/UserInit";
 import { OnTaskComplete, Task,CoolDownEnded } from "@/Firebase/TaskInit";
 
 export default function Home() {
-  const { user,task, setUser, setTask } = useUserContext();
-  const urls = ["https://tii.la/"];
+  const { user, setUser, setTask } = useUserContext();
+  const urls = ["https://tii.la/", 'https://shrinke.me/', 'https://enit.in/', 'https://go.aoutoqw.xyz/', 'https://oko.sh/', "davisonbarker.pro" ];
 
   const checkCooldown = async (user, eTask) => {
     const completedTask = user.Task?.find((task) => task.Name === eTask.Name);
@@ -35,6 +35,10 @@ export default function Home() {
         const now = new Date();
         await OnTaskComplete(session.user.id, now);
       } else {
+        if (work.includes("davisonbarker.pro")){
+          const now = new Date();
+          await OnTaskComplete(session.user.id, now);
+        }
         // Do nothing
       }
       if (session == null) return;
