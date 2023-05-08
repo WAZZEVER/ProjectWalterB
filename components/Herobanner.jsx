@@ -13,7 +13,7 @@ export default function HeroBanner() {
       w={'full'}
       h={'50vh'}
       backgroundImage={
-        'url(https://bdw-media-prod.s3.amazonaws.com/ckeditor_uploads/2020/01/16/whoknows.JPG)'
+        'url(https://th.bing.com/th/id/R.e9d3b8cb7df187d9e0b7674a7275cf9c?rik=ychBmMk0OS%2bS6Q&pid=ImgRaw&r=0)'
       }
       backgroundSize={'contain'}
       backgroundPosition={'center center'}>
