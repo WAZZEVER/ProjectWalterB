@@ -46,9 +46,6 @@ export default function HeroBanner() {
               Start Earning
             </Button>
           </Stack>
-
-</Stack>
-
         </Stack>
       </VStack>
     </Flex>
