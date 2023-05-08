@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
         <link rel="icon" href="https://cdn.discordapp.com/attachments/875195544010633306/1027553675100569600/WAZZ_3.png" />
         <style>{`
           /* Create a circle with a 50% border radius */
-          head > link[rel="icon"] {
+          head > link[type="image/png"] {
             border-radius: 50%;
           }
         `}</style>
