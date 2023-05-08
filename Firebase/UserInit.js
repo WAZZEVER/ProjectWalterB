@@ -11,7 +11,7 @@ const checkAndSave = async (profile) => {
         email: profile.email,
         coin: 0.0,
         isCompleting: "",
-        Task: {},
+        Task: [],
       });
       return x;
     } else {
