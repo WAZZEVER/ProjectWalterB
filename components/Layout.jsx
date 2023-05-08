@@ -8,6 +8,7 @@ const Layout = ({ children }) => {
     <div className='main-layout'>
       <Head>
         <title>WAZZEVER</title>
+        <link rel="icon" href="https://th.bing.com/th/id/OIP.MsbTJ1aP-6jw_lY6BHGh0AHaEK?pid=ImgDet&rs=1" />
       </Head>
       <header>
         <Navbar />
