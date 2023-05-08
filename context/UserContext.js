@@ -7,7 +7,7 @@ export const UserContext = ({ children }) => {
     discordId: "",
     email: "",
     username: "Guest",
-    profile: "https://th.bing.com/th/id/OIP.kTbwBXhl9Ian0CplIpmJlwHaHa?pid=ImgDet&rs=1",
+    profile: "https://bdw-media-prod.s3.amazonaws.com/ckeditor_uploads/2020/01/16/whoknows.JPG",
     coin: 0.0,
     isAuth: false,
     isAdmin: false,
