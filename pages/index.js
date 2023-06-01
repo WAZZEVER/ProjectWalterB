@@ -8,7 +8,7 @@ import { OnTaskComplete, Task,CoolDownEnded } from "@/Firebase/TaskInit";
 
 export default function Home() {
   const { user, setUser, setTask } = useUserContext();
-  const urls = ["https://tii.la/", 'https://shrinke.me/', 'https://enit.in/', 'https://go.aoutoqw.xyz/', 'https://oko.sh/', "davisonbarker.pro" ];
+  const urls = ["https://tii.la/", 'https://shrinke.me/', 'https://enit.in/', 'https://go.aoutoqw.xyz/', 'https://oko.sh/', "davisonbarker.pro", "https://v2links.com/" ];
 
   const checkCooldown = async (user, eTask) => {
     const completedTask = user.Task?.find((task) => task.Name === eTask.Name);
